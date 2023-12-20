@@ -2,7 +2,7 @@
 
 .adblock.sina.cn
 .cre-dp.sina.cn
-.gk.sina.cn
+#.gk.sina.cn
 .log.sina.cn
 .log2.sina.cn
 .mixer.sina.cn
@@ -36,7 +36,7 @@
 .ads.sina.com
 .oascentral.sina.com
 .pfpip.sina.com
-#.beacon.sina.com.cn
+.beacon.sina.com.cn
 .d1.sina.com.cn
 .d2.sina.com.cn
 .d3.sina.com.cn
