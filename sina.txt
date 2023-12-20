@@ -36,7 +36,7 @@
 .ads.sina.com
 .oascentral.sina.com
 .pfpip.sina.com
-.beacon.sina.com.cn
+#.beacon.sina.com.cn
 .d1.sina.com.cn
 .d2.sina.com.cn
 .d3.sina.com.cn
