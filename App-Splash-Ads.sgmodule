@@ -1,0 +1,9 @@
+#!name=App Splash Ads
+#!desc=应用开屏广告去除。目前支持豆瓣，后续逐步添加其他应用规则。
+
+[Body Rewrite]
+# 豆瓣：关闭广告 SDK、开屏竞价及预加载配置
+http-response-jq ^https://frodo\.douban\.com/api/v2/feature_switch(?:\?|$) '.enable_sdk_ad = false | .enable_splash_client_bid = false | .splash_client_bid_use_preload = false | .splash_sdk_info = []'
+
+[MITM]
+hostname = %APPEND% frodo.douban.com
