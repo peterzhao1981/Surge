@@ -1,0 +1,23 @@
+#!name=京东去广告
+#!desc=移除京东开屏广告，精简首页、我的、订单及物流页面推广。需要 Surge Mac 5.9.0+ 或 iOS 5.14.0+，并启用重写、脚本及 HTTPS 解密。
+#!author=RuCu6[https://github.com/RuCu6], Maasea[https://github.com/Maasea]
+
+# 转换来源：https://raw.githubusercontent.com/fkingikelee/fkikelee/main/lpx/JD_remove_ads.lpx
+# 保留原规则范围与原脚本地址；转换日期：2026-11-03。
+
+[Rule]
+URL-REGEX,^http://\w{32}\.jddebug\.com/diagnose\?,REJECT
+
+[Map Local]
+# 返回 HTTP 200 和空 JSON 对象，对应原规则的 reject_dict(200)。
+(?i)^https://api\.m\.jd\.com/client\.action\?functionId=(searchBoxWord|stationPullService|uniformRecommend[06]) data-type=text data="{}" status-code=200 header="Content-Type:application/json"
+
+[Body Rewrite]
+# 关闭原规则指定的连接监测与 HTTPDNS 配置。
+http-response-jq (?i)^https://api\.m\.jd\.com/client\.action\?functionId=basicConfig '.data.JDMessage.socketmonitor.isSocketEstablishedAhead = 0 | .data.JDMessage.socketmonitor.isSocketReport = 0 | .data.JDHttpToolKit.httpdns.httpdns = 0'
+
+[Script]
+JD-Remove-Ads = type=http-response,pattern=(?i)^https://api\.m\.jd\.com/client\.action\?functionId=(deliverLayer|getTabHomeInfo|myOrderInfo|orderTrackBusiness|personinfoBusiness|start|welcomeHome),requires-body=true,script-path=https://raw.githubusercontent.com/fkingikelee/fkikelee/main/Resource/kelee/JavaScript/JD/JD_remove_ads.js
+
+[MITM]
+hostname = %APPEND% api.m.jd.com
