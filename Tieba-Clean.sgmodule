@@ -4,9 +4,12 @@
 #!arguments-desc=per_filter_video_thread：true 拦截首页推荐视频帖，false 保留。默认沿用原规则的首选项 true。
 # 原规则作者：可莉 https://github.com/luestr/ProxyResource 、app2smile https://github.com/app2smile
 # 转换日期：2026-11-04。保留原规则的匹配范围及远程 ProtoBuf 脚本。
+# 2026-11-16：拦截 adBid / getFeedAd，修复新版帖子详情及列表广告。
 # Surge JSON 重写文档：https://manual.nssurge.com/http/body-rewrite.html
 
 [Rule]
+# 新版帖子详情（pb/firstPage、pb/page cmd=309751）的广告由 adBid 竞价后再经 getFeedAd 下发，脚本只清 goods_info 无法去除
+URL-REGEX,tiebac?\.baidu\.com.*/c/(b/ad/adBid|f/ad/getFeedAd)\?,REJECT
 DOMAIN,180.76.76.200,REJECT
 IP-CIDR,180.76.76.200/32,REJECT,no-resolve
 
