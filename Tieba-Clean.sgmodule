@@ -3,8 +3,8 @@
 #!arguments=per_filter_video_thread:true
 #!arguments-desc=per_filter_video_thread：true 拦截首页推荐视频帖，false 保留。默认沿用原规则的首选项 true。
 # 原规则作者：可莉 https://github.com/luestr/ProxyResource 、app2smile https://github.com/app2smile
-# 转换日期：2026-11-04。保留原规则的匹配范围及远程 ProtoBuf 脚本。
-# 2026-11-16：拦截 adBid / getFeedAd，修复新版帖子详情及列表广告。
+# 转换日期：2026-11-04。保留原规则的匹配范围。
+# 2026-11-16：拦截 adBid / getFeedAd，修复新版帖子详情广告；ProtoBuf 脚本改用本仓库 Tieba-Proto.js，整体清空吧内列表等处的 app 广告卡片。
 # Surge JSON 重写文档：https://manual.nssurge.com/http/body-rewrite.html
 
 [Rule]
@@ -34,7 +34,7 @@ http-response-jq (?i)^https?://tiebac\.baidu\.com/c/f/frs/frsBottom$ 'del(.card_
 http-response-jq (?i)^https?://tiebac\.baidu\.com/c/f/sidebar/home$ 'del(.game_center, .tools, .task_list, .vip_banner)'
 
 [Script]
-Tieba-Proto = type=http-response, pattern=(?i)^https?://tieba(?:c)?\.baidu\.com/c/(f/excellent/personalized|f/frs/page|b/ad/adBid|f/ad/getFeedAd|f/pb/page|f/frs/generalTabList)\?cmd=\d+&format=protobuf, script-path=https://raw.githubusercontent.com/fkingikelee/fkikelee/main/Resource/kelee/JavaScript/Tieba/tieba-proto.js, timeout=10, requires-body=true, binary-body-mode=true, argument="per_filter_video_thread={{{per_filter_video_thread}}}"
+Tieba-Proto = type=http-response, pattern=(?i)^https?://tieba(?:c)?\.baidu\.com/c/(f/excellent/personalized|f/frs/page|b/ad/adBid|f/ad/getFeedAd|f/pb/page|f/frs/generalTabList)\?cmd=\d+&format=protobuf, script-path=https://raw.githubusercontent.com/peterzhao1981/Surge/main/Tieba-Proto.js, timeout=10, requires-body=true, binary-body-mode=true, argument="per_filter_video_thread={{{per_filter_video_thread}}}"
 
 [MITM]
 hostname = %APPEND% tiebac.baidu.com, tieba.baidu.com
